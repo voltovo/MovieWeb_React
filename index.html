@@ -1,33 +1,46 @@
 <!DOCTYPE html>
 <html>
-<body>
-  <div id="root"></div>
-</body>
-<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-<script type="text/babel">
-  const root = document.getElementById("root");
-  function App() {
-    const [counter, setCounter] = React.useState(0);
-    const onClick = () => {
-      //setCounter(counter + 1);
-      /**
-       * react의 컴포넌트 상태 관리 시스템을 최대한 활용하기 위해
-       * counter + 1 대신 
-       * prevCounter => prevCounter + 1 으로
-       * 함수형 업데이트 패턴을 적용하면 
-       * 비동기적인 업데이트 상황에서 최신값을 보장한다
-       */
-      setCounter(prevCounter => prevCounter + 1);
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const root = document.getElementById("root");
+    function App() {
+      const [minutes, setMinutes] = React.useState();
+      const onChange = (event) => {
+        setMinutes(event.target.value);
+      };
+      const reset = () => setMinutes(0);
+      return (
+        <div>
+          <h1>Super Converter</h1>
+          <b>분을 입력시 계산된 시간을 return</b>
+          <div>
+            <label hemlFor="minutes">Minutes</label>
+            <input
+              value={minutes}
+              id="minutes"
+              type="number"
+              placeholder="Minutes"
+              onChange={onChange}
+            />
+          </div>
+          <div>
+            <label hemlFor="hours">Hours</label>&nbsp;&nbsp;&nbsp;
+            <input
+              value={Math.round(minutes / 60)}
+              id="hours"
+              type="number"
+              placeholder="Hours"
+            />
+          </div>
+          <button onClick={reset}>Reset</button>
+        </div>
+      );
     }
-    return (
-      <div>
-        <h3>Total Clicks : {counter}</h3>
-        <button onClick={onClick}>Click me</button>
-      </div>
-    )
-  }
-  ReactDOM.render(<App/>, root);
-</script>
+    ReactDOM.render(<App />, root);
+  </script>
 </html>
